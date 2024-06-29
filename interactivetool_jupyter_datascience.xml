@@ -1,0 +1,48 @@
+<tool id="interactivetool_jupyter_datascience" tool_type="interactive" name="Jupyter Datascience Notebook" version="0.0.3">
+    <requirements>
+        <container type="docker">quay.io/jupyter/datascience-notebook:latest</container>
+    </requirements>
+    <entry_points>
+        <entry_point name="Jupyter Datascience Notebook" label="jupyter" requires_domain="False" requires_path_in_url="True">
+            <port>8888</port>
+        </entry_point>
+    </entry_points>
+    <environment_variables>
+        <environment_variable name="HISTORY_ID">$__history_id__</environment_variable>
+        <environment_variable name="USER_EMAIL">$__user_email__</environment_variable>
+        <environment_variable name="REMOTE_HOST">$__galaxy_url__</environment_variable>
+        <environment_variable name="GALAXY_URL">$__galaxy_url__</environment_variable>
+        <environment_variable name="PGID">$__app__.config.gid</environment_variable>
+        <environment_variable name="API_KEY" inject="api_key" />
+        <environment_variable name="EP_PATH" inject="entry_point_path_for_label">jupyter</environment_variable>
+    </environment_variables>
+    <!--
+        export PASSWD=`python -c "import random, string; chars = list(string.ascii_lowercase) + list(string.ascii_uppercase) + list(range(10)); print(''.join(str(random.choice(chars)) for _ in range(20)))"` &&
+        export HASHED_PASSWD=`python -c "from jupyter_server.auth import passwd; password = passwd('\$PASSWD'); print(password);"` &&
+        echo "c.ServerApp.password = u'\$HASHED_PASSWD'" >> \$HOME/.jupyter/jupyter_server_config.py &&
+        echo "\$HASHED_PASSWD" > \$HOME/password &&
+
+
+
+        -->
+    <command detect_errors="exit_code"><![CDATA[
+        export HOME=/home/jovyan/ &&
+        export PATH=/home/jovyan/.local/bin:\$PATH &&
+        echo '{"cells": [],"metadata": {},"nbformat": 4,"nbformat_minor": 2}' > Something.ipynb &&
+        jupyter notebook --ServerApp.base_url="\$EP_PATH" --ip='*' --ServerApp.token='' --ServerApp.password='' Something.ipynb
+    ]]>
+    </command>
+    <inputs>
+        <param name="input" type="data" optional="true" label="Job parameters"/>
+
+    </inputs>
+    <outputs>
+        <data name="output" format="txt" label="Jupyter Datascience Notebook">
+        	<discover_datasets pattern="__designation_and_ext__" directory="files" visible="true" />
+        </data>
+    </outputs>
+    <tests>
+    </tests>
+    <help>
+    </help>
+</tool>
