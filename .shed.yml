@@ -1,4 +1,6 @@
-categories: []
+categories:
+- Web Services
 description: Jupyter Notebook Interactive Tool adapted for Interactive Client tools
 name: interactivetool_jupyter_datascience
 owner: sveinugu
+remote_repository_url: https://raw.githubusercontent.com/sveinugu/interactivetool_jupyter_datascience/main/.shed.yml

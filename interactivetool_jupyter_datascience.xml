@@ -33,8 +33,7 @@
     ]]>
     </command>
     <inputs>
-        <param name="input" type="data" optional="true" label="Job parameters"/>
-
+        <param name="input" type="data" format="data" optional="true" label="Job parameters"/>
     </inputs>
     <outputs>
         <data name="output" format="txt" label="Jupyter Datascience Notebook">
